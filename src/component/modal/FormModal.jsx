@@ -55,15 +55,21 @@ export default function FormModal(props) {
 
     const handleChange = ({ target: { name, value } }) => {
         let temp = { ...info }
-        if (name === 'dob') {
+        if (name === 'fname' || name === 'lname') {
+            let newVal = value.replace(/[^a-z]/gi, '')
+            temp[name] = newVal
+        } else if (name === 'dob') {
             let age = calculateAge(value)
             if (age !== null && (age <= 14 || age >= 99)) {
                 setErrorAge('Age must be older than 14 years and less than 99 years.');
             } else {
                 setErrorAge('');
             }
+            temp[name] = value
+        } else {
+            temp[name] = value
         }
-        temp[name] = value
+
         SetInfo(temp);
     }
     React.useEffect(() => {
